@@ -1,6 +1,6 @@
 .PHONY: install test
 
-MEGACHECK := $(GOPATH)/bin/megacheck
+STATICCHECK := $(GOPATH)/bin/staticcheck
 BUMP_VERSION := $(GOPATH)/bin/bump_version
 WRITE_MAILMAP := $(GOPATH)/bin/write_mailmap
 RELEASE := $(GOPATH)/bin/github-release
@@ -12,12 +12,12 @@ build:
 	go get ./...
 	go build ./...
 
-$(MEGACHECK):
-	go get -u honnef.co/go/tools/cmd/megacheck
+$(STATICCHECK):
+	go get -u honnef.co/go/tools/cmd/staticcheck
 
-lint: $(MEGACHECK)
+lint: $(STATICCHECK)
 	go vet ./...
-	go list ./... | grep -v vendor | xargs $(MEGACHECK) --ignore='github.com/kevinburke/go-circle/*.go:S1002'
+	go list ./... | grep -v vendor | xargs $(STATICCHECK)
 
 test: lint
 	go test ./...

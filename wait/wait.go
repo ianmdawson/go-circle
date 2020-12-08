@@ -259,8 +259,9 @@ func wait(ctx context.Context, branch, remoteStr string, rebaseAgainst string) e
 			return err
 		}
 		if len(*cr) == 0 {
-			return fmt.Errorf("No results, are you sure there are tests for %s/%s?\n",
+			readableErrMsg := fmt.Sprintf("No results, are you sure there are tests for %s/%s?\n",
 				remote.Path, remote.RepoName)
+			return fmt.Errorf(readableErrMsg)
 		}
 		var detailedBuild *circle.CircleBuild
 		latestBuild := (*cr)[0]
@@ -358,7 +359,8 @@ Tests on %s took %s. Quitting.
 				fmt.Println(texts[i])
 			}
 			fmt.Printf("\nURL: %s\n", latestBuild.BuildURL)
-			err = fmt.Errorf("Build on %s failed!\n\n", branch)
+			readableErrMsg := fmt.Sprintf("Build on %s failed!\n\n", branch)
+			err = fmt.Errorf(readableErrMsg)
 			c.Display("build failed")
 			return err
 		}

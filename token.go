@@ -24,7 +24,7 @@ type organization struct {
 // insensitive match, so if key is "ShyP" and orgs has a key named "sHYp",
 // that will count as a match.
 func getCaseInsensitiveOrg(key string, orgs map[string]organization) (organization, error) {
-	for k, _ := range orgs {
+	for k := range orgs {
 		lower := strings.ToLower(k)
 		if _, ok := orgs[lower]; !ok {
 			orgs[lower] = orgs[k]
@@ -35,10 +35,11 @@ func getCaseInsensitiveOrg(key string, orgs map[string]organization) (organizati
 	if o, ok := orgs[lowerKey]; ok {
 		return o, nil
 	} else {
-		return organization{}, fmt.Errorf(`Couldn't find organization %s in the config.
+		readableErrMsg := fmt.Sprintf(`Couldn't find organization %s in the config.
 
 Go to https://circleci.com/account/api if you need to create a token.
 `, key)
+		return organization{}, fmt.Errorf(readableErrMsg)
 	}
 }
 
@@ -69,7 +70,7 @@ func getToken(orgName string) (string, error) {
 		}
 	}
 	if err != nil {
-		err = fmt.Errorf(`Couldn't find a config file in %s.
+		readableErrMsg := fmt.Sprintf(`Couldn't find a config file in %s.
 
 Add a configuration file with your CircleCI token, like this:
 
@@ -79,7 +80,10 @@ Add a configuration file with your CircleCI token, like this:
     token = "aabbccddeeff00"
 
 Go to https://circleci.com/account/api if you need to create a token.
-`, strings.Join(checkedLocations, " or "))
+`,
+			strings.Join(checkedLocations, " or "),
+		)
+		err = fmt.Errorf(readableErrMsg)
 		return "", err
 	}
 	defer f.Close()

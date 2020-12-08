@@ -47,7 +47,7 @@ Cancel the current CircleCI build, or the latest build on the provided
 Git branch.`
 
 func usage() {
-	fmt.Fprintf(os.Stderr, help)
+	fmt.Fprint(os.Stderr, help)
 	flag.PrintDefaults()
 }
 
@@ -174,8 +174,9 @@ func doCancel(flags *flag.FlagSet) error {
 	cr, err := circle.GetTreeContext(ctx, remote.Host, remote.Path, remote.RepoName, branch)
 	checkError(err)
 	if len(*cr) == 0 {
-		return fmt.Errorf("No results, are you sure there are tests for %s/%s?\n",
+		readableErrMsg := fmt.Sprintf("No results, are you sure there are tests for %s/%s?\n",
 			remote.Path, remote.RepoName)
+		return fmt.Errorf(readableErrMsg)
 	}
 	latestBuild := (*cr)[0]
 	_, cancelErr := circle.CancelBuild(ctx, remote.Host, remote.Path, remote.RepoName, latestBuild.BuildNum)

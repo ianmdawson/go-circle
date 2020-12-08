@@ -221,7 +221,7 @@ func makeRequest(ctx context.Context, method, uri string) (io.ReadCloser, error)
 
 	if resp.StatusCode >= 400 {
 		// TODO handle build not found, you get back {"message": "Build not found"}
-		return nil, fmt.Errorf("Request failed with status [%d]", resp.StatusCode)
+		return nil, fmt.Errorf("request failed with status [%d]", resp.StatusCode)
 	}
 
 	return resp.Body, nil
