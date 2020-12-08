@@ -9,6 +9,7 @@ require (
 	github.com/inconshreveable/log15 v0.0.0-20171019012758-0decfc6c20d9
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99
 	github.com/kevinburke/bigtext v0.0.0-20170825225517-fd72dcfb912b
+	github.com/kevinburke/go-circle v0.0.0-20180829015306-f999d0ec9bcd
 	github.com/kevinburke/go-git v0.0.0-20180514054420-e51a76c0bcd1
 	github.com/kevinburke/go-types v0.0.0-20180416164647-f419f772e940
 	github.com/kevinburke/go.uuid v1.2.0
